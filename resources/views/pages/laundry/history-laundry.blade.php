@@ -92,6 +92,49 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="viewBuktiModal" tabindex="-1" aria-labelledby="viewBuktiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewBuktiModalLabel">Bukti Pembayaran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="buktiImage" src="#" alt="Bukti Pembayaran" class="img-fluid d-none">
+                <p id="buktiText" class="text-muted d-none">Tidak dapat memuat file bukti.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const viewBuktiModal = document.getElementById('viewBuktiModal');
+    const pageContent = document.querySelector('body');
+
+    viewBuktiModal.addEventListener('show.bs.modal', function (event) {
+        // pageContent.setAttribute('inert', '');
+        const button = event.relatedTarget;
+        const buktiUrl = button.getAttribute('data-bukti');
+        const buktiImage = document.getElementById('buktiImage');
+        const buktiText = document.getElementById('buktiText');
+
+        if (buktiUrl) {
+            buktiImage.src = buktiUrl;
+            buktiImage.classList.remove('d-none');
+            buktiText.classList.add('d-none');
+        } else {
+            buktiImage.classList.add('d-none');
+            buktiText.classList.remove('d-none');
+        }
+    });
+
+    // viewBuktiModal.addEventListener('hide.bs.modal', () => {
+    //     pageContent.removeAttribute('inert');
+    // })
+</script>
+
 @if(Auth::user()->auth == "admin")
 <script>
     function updateStatus(value, pembayaranId, typeStatus) {
@@ -132,20 +175,7 @@
 </script>
 @else
 <!-- Modal -->
-<div class="modal fade" id="viewBuktiModal" tabindex="-1" aria-labelledby="viewBuktiModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewBuktiModalLabel">Bukti Pembayaran</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="buktiImage" src="#" alt="Bukti Pembayaran" class="img-fluid d-none">
-                <p id="buktiText" class="text-muted d-none">Tidak dapat memuat file bukti.</p>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="modal fade" id="uploadBuktiModal" tabindex="-1" aria-labelledby="uploadBuktiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -177,25 +207,6 @@
         </div>
     </div>
 </div>
-<script>
-    const viewBuktiModal = document.getElementById('viewBuktiModal');
-
-    viewBuktiModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const buktiUrl = button.getAttribute('data-bukti');
-        const buktiImage = document.getElementById('buktiImage');
-        const buktiText = document.getElementById('buktiText');
-
-        if (buktiUrl) {
-            buktiImage.src = buktiUrl;
-            buktiImage.classList.remove('d-none');
-            buktiText.classList.add('d-none');
-        } else {
-            buktiImage.classList.add('d-none');
-            buktiText.classList.remove('d-none');
-        }
-    });
-</script>
 
 <script>
     const uploadBuktiModal = document.getElementById('uploadBuktiModal');

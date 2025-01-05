@@ -52,9 +52,16 @@ class LaundryController extends Controller
         if ($req->file()) {
             $fileName = time().'_'.Auth::user()->nama.'.'.$req->file('file_bukti')->extension();
             $filePath = $req->file('file_bukti')->storeAs('bukti', $fileName, 'public');
-            Pembayaran::where('id', $validated['id_pembayaran'])->update([
+            $pembayaran = Pembayaran::where('id', $validated['id_pembayaran']);
+            $pembayaran->update([
                 "bukti" => "bukti/" . $fileName,
                 "status_bukti" => 1,
+            ]);
+            //notifikasi admin
+            Notifikasi::create([
+                "user_id" => User::where('auth', 'admin')->first()->id,
+                "judul" => "Customer melakukan upload bukti",
+                "pesan" => "Customer dengan nama " . User::where('id', $pembayaran->first()->id_customer)->first()->nama . " sudah melakukan upload bukti"
             ]);
             return redirect()->route('pages.historylaundry', ['auth' => 'customer']);
         }
@@ -107,11 +114,12 @@ class LaundryController extends Controller
 
     public function historyLaundry() {
         if (Auth::user()->auth == 'admin') {
-            $pembayarans = Pembayaran::all();
+            $pembayarans = Pembayaran::orderBy('tanggal_mulai', 'desc')->get();
         } else {
-            $pembayarans = Pembayaran::where('id_customer', Auth::user()->id)->get();
+            $pembayarans = Pembayaran::where('id_customer', Auth::user()->id)
+                ->orderBy('tanggal_mulai', 'desc')
+                ->get();
         }
-        // var_dump($pembayarans);
         return view('pages.laundry.history-laundry', compact('pembayarans'));
     }
 

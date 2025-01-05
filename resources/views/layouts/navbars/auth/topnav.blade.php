@@ -19,21 +19,22 @@
                     </a>
                 </li>
                 <li class="nav-item d-flex align-items-center gap-3">
+
                     <!-- Notifikasi -->
-                    <!-- @php
+                    @php
                         $unreadNotifications = App\Models\Notifikasi::where('user_id', Auth::id())
                                                 ->where('is_read', false)
                                                 ->count();
-                    @endphp -->
-                    <!-- <a href="{{ route('notifikasi') }}" class="nav-link p-0 position-relative"> -->
-                        <!-- {{ svg('ionicon-notifications', 'icon-sm text-light') }}
-                        @if($unreadNotifications > 0) -->
-                            <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    @endphp 
+                    <a href="{{ route('notifikasi') }}" class="nav-link p-0 position-relative">
+                        {{ svg('ionicon-notifications', 'icon-sm text-light') }}
+                        @if($unreadNotifications > 0) 
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {{ $unreadNotifications }}
                                 <span class="visually-hidden">Notifikasi Baru</span>
-                            </span> -->
-                        <!-- @endif -->
-                    <!-- </a> -->
+                            </span>
+                         @endif
+                    </a>
 
                     <!-- Gambar Profil -->
                     <a href="{{ route('profile') }}" class="nav-link p-0">
